@@ -39,7 +39,6 @@ class Company(Address,WhoCols):
     bank = models.ForeignKey(Bank,on_delete=models.CASCADE,null=True,blank=True)
     def __str__(self):
         return self.company_name
-    
 
 
 class Client(Address,WhoCols):
@@ -47,4 +46,24 @@ class Client(Address,WhoCols):
     def __str__(self):
         return self.client_name
 
+class Court(Address,WhoCols):
+    court_name =  models.CharField(max_length=200,null=True,blank=True)
+    def __str__(self):
+        return self.court_name
+
+class Stage(WhoCols):
+    court_name =  models.CharField(max_length=200,null=True,blank=True)
+    def __str__(self):
+        return self.court_name
+
+class Case(WhoCols):
+    case_number = models.AutoField()
+    client = models.ForeignKey(client,on_delete=models.SET_NULL)
+    description =  models.CharField(max_length=2000,null=True,blank=True)
+    court_name =  models.ForeignKey(Cou,on_delete=models.SET_NULL)
+    stage =  models.CharField(max_length=200,null=True,blank=True)
+    next_date = models.DateTimeField()
+
+    def __str__(self):
+        return self.case_number+' - '+self.client+' - 'self.stage
 
