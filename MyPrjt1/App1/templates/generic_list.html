@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<ul class="list-group m-2">
+    {% for obj in object_list %}
+    <li class="list-group-item ">
+        <a href={% url 'App1:company_detail' obj.id %}>{{obj}}</a>
+    </li>
+    {% endfor %}
+    
+</ul>
+
+{% endblock content %}
+
