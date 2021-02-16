@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+<div class="container-fluid">
+    <table class="table table-light">
+        <tbody>
+            <tr class="row">
+                <td class="col-1">{{form.address_line_1.label}}</td>
+                <td class="col-3">{{form.address_line_1}}</td>
+                <td class="col-1">{{form.address_line_2.label}}</td>
+                <td class="col-3">{{form.address_line_2}}</td>
+                <td class="col-1">{{form.address_line_3.label}}</td>
+                <td class="col-3">{{form.address_line_3}}</td>
+            </tr>
+            <tr class="row">
+                <td class="col-1">{{form.city.label}}</td>
+                <td class="col-2">{{form.city}}</td>
+                <td class="col-1">{{form.state.label}}</td>
+                <td class="col-2">{{form.state}}</td>
+                <td class="col-1">{{form.pincode.label}}</td>
+                <td class="col-2">{{form.pincode}}</td>
+                <td class="col-1">{{form.country.label}}</td>
+                <td class="col-2">{{form.country}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
+{% endblock content %}

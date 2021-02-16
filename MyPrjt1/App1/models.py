@@ -4,7 +4,7 @@ from django.db import models
 class WhoCols(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     created_by =  models.CharField(max_length=200,null=True,blank=True)
-    date_updated = models.DateTimeField()
+    date_updated = models.DateTimeField(auto_now_add=True)
     updated_by =  models.CharField(max_length=200,null=True,blank=True)
 
     class Meta:
@@ -24,13 +24,19 @@ class Address(models.Model):
         abstract = True
 
 class Bank(Address,WhoCols):
-    bank_name =  models.CharField(max_length=200,null=True,blank=True)
-    account_number =  models.IntegerField(null=True,blank=True)
-    rtgs_number = models.IntegerField(null=True,blank=True)
-    ifsc_code =  models.CharField(max_length=200,null=True,blank=True)
+    bank_name =  models.CharField(max_length=200)
+    account_number =  models.IntegerField(unique=True,)
+    rtgs_number = models.IntegerField()
+    ifsc_code =  models.CharField(max_length=200)
 
     def __str__(self):
-        return self.bank_name+' - '+self.city
+        return self.bank_name
+    
+    class Meta:
+        constraints = [
+            models.CheckConstraint(check=models.Q(rtgs_number__gt=0),name='rtgs_number'),
+            models.CheckConstraint(check=models.Q(rtgs_number__gt=0),name='account_number')
+        ]
 
 class Company(Address,WhoCols):
     company_name =  models.CharField(max_length=200,null=True,blank=True)
@@ -52,18 +58,18 @@ class Court(Address,WhoCols):
         return self.court_name
 
 class Stage(WhoCols):
-    court_name =  models.CharField(max_length=200,null=True,blank=True)
+    stage_name =  models.CharField(max_length=200,null=True,blank=True)
+    stage_description =  models.CharField(max_length=200,null=True,blank=True)
     def __str__(self):
-        return self.court_name
+        return self.stage_name
 
 class Case(WhoCols):
-    case_number = models.AutoField()
-    client = models.ForeignKey(client,on_delete=models.SET_NULL)
+    case_number = models.AutoField(primary_key=True)
+    client = models.ForeignKey(Client,on_delete=models.CASCADE)
     description =  models.CharField(max_length=2000,null=True,blank=True)
-    court_name =  models.ForeignKey(Cou,on_delete=models.SET_NULL)
-    stage =  models.CharField(max_length=200,null=True,blank=True)
+    court_name =  models.ForeignKey(Court,on_delete=models.CASCADE)
+    stage =  models.ForeignKey(Stage,on_delete=models.CASCADE)
     next_date = models.DateTimeField()
 
     def __str__(self):
-        return self.case_number+' - '+self.client+' - 'self.stage
-
+        return self.case_number+' - '+self.client+' - '+self.stage
