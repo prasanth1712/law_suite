@@ -7,11 +7,10 @@ class CompanyListView(ListView):
     template_name = 'generic_list.html'
     model = Company
     context_object_name = 'object_list'
+    extra_context = {'dynamic_url':'App1:company_detail'}
 
 
 class CompanyDetailView(DetailView):
-    template_name = 'generic_detail.html'
+    template_name='company_detail.html'
     model = Company
-    context_object_name = 'object'
-    
-    
+    context_object_name = 'company'

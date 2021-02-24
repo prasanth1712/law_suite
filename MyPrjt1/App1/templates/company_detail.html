@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+{{company.gst_number}}
+{{company.key}}
+
+{% include "address.html"  with form=company only %}
+
+
+{% endblock content %}
+

@@ -1,5 +1,5 @@
 from django.shortcuts import render,reverse
-from django.views.generic import ListView
+from django.views.generic import ListView,DetailView
 from App1.models import Bank
 
 
@@ -7,7 +7,13 @@ class BankListView(ListView):
     template_name = 'generic_list.html'
     model = Bank
     context_object_name = 'object_list'
+    extra_context = {'dynamic_url':'App1:bank_detail'}
 
+
+class BankDetailView(DetailView):
+    template_name = 'generic_detail.html'
+    model = Bank
+    context_object_name = 'object'
 
 
 
